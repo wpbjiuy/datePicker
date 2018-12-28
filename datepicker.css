@@ -1,0 +1,120 @@
+.datepicker-wrap,
+.datepicker-wrap div,
+.datepicker-wrap span,
+.datepicker-wrap ul,
+.datepicker-wrap li{
+	margin:0;
+	padding:0;
+}
+.datepicker-wrap{
+	width:100%;
+	height:100%;
+	position: fixed;
+	left:0;
+	top:0;
+	/*background-color: rgba(0,0,0,0.6);*/
+	z-index: 9;
+}
+.datepicker-body{
+	width:100%;
+	position: absolute;
+	left:0;
+	bottom:-100%;
+	z-index: 1;
+	border-top:1px solid #ddd;
+	background-color:#cfd5da;
+	transition-duration: 0.28s;
+}
+.datepicker-wrap.show .datepicker-body{
+	bottom:0;
+}
+.datepicker-ctr{
+	width:100%;
+	background-color: #f7f7f8;
+	height:40px;
+	line-height: 40px;
+	font-size: 14px;
+}
+.datepicker-ctr span{
+	float:right;
+	margin:0 15px;
+}
+.datepicker-ctr span:first-child{
+	float:left;
+}
+.datepicker-slcs,
+.datepicker-touchs{
+	height:calc(5 * 32px);
+	display: flex;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+.datepicker-slcs::before,
+.datepicker-slcs::after{
+	content:'';
+	width: 98%;
+	position: absolute;
+	top:50%;
+	left:1%;
+	z-index: -1;
+}
+.datepicker-slcs::before{
+	border-bottom:1px solid #fff;
+	margin-top:-16px;
+}
+.datepicker-slcs::after{
+	border-top:1px solid #fff;
+	margin-top: 16px;
+}
+.datepicker-slcs > ul{
+	padding:0;
+	margin: 0;
+	flex: 1;
+	text-align: center;
+	position: relative;
+	top:50%;
+	margin-top:-16px;
+}
+.datepicker-slcs > ul > li{
+	list-style: none;
+	height:32px;
+	line-height: 32px;
+}
+
+.datepicker-touchs{
+	position: absolute;
+	width: 100%;
+	left:0;
+	bottom:0;
+	z-index: 2;
+	display: flex;
+}
+.datepicker-touchs > ul{
+	flex:1;
+	height:100%;
+	position: relative;
+}
+.datepicker-touchs > ul::before,
+.datepicker-touchs > ul::after{
+	content: '';
+	width:100%;
+	height:50%;
+	position: absolute;
+	left:0;
+	z-index: 1;
+}
+.datepicker-touchs > ul::before{
+	top:0;
+	background-image: linear-gradient(180deg,#cfd5da 0,rgba(207,213,218,.6) 50%,rgba(207,213,218,.5) 80%,rgba(207,213,218,0) 100%);
+}
+.datepicker-touchs > ul::after{
+	bottom:0;
+	background-image: linear-gradient(0deg,#cfd5da 0,rgba(207,213,218,.6) 50%,rgba(207,213,218,.5) 80%,rgba(207,213,218,0) 100%);
+}
+.datepicker-touchs > ul li{
+	height:32px;
+	list-style: none;
+	position: relative;
+	z-index: 2;
+}
