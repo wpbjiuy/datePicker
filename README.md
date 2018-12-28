@@ -2,7 +2,7 @@
 简单移动端日期选择
 效果图如下：
 
-![datePicker](date.jpg)
+![datePicker](date.png)
 
 # 用法
 	<!DOCTYPE>
