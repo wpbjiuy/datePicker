@@ -266,7 +266,7 @@
 
 			self.eSlcUl_1_event = function(e, v){
 				var min = 1,
-					max = 30;
+					max = new Date(self.dateOpts.year,parseInt(v),0).getDate();
 
 				self.dateOpts.month = v;
 
@@ -276,10 +276,6 @@
 
 				if(self.dateOpts.year == self.dateOpts.maxAr[0] && v == self.dateOpts.maxAr[1]){
 					max = self.dateOpts.maxAr[2];
-				}else if(v == 2){
-					max = new Date(self.dateOpts.year,2,0).getDate();
-				}else if([1,3,5,7,8,10,12].indexOf(v) >= 0){
-					max = 31;
 				}
 
 				var daysDom = self.addSlcDom(2, self.creatNumOption(min, max+1, '日'));
@@ -296,9 +292,10 @@
 			}
 
 			function resizeSlcUl(dom, v, n){
-				var idx = getIndexInValue(dom, v);
+				var idx = getIndexInValue(dom, v),
+					isNotNode = idx < 0;
 
-				if(idx < 0){
+				if(isNotNode){
 					var maxv = dom.children[dom.children.length-1].dataset.value,
 						isMax = v - maxv > 0;
 
@@ -310,7 +307,8 @@
 					_tsy = -idx*self.ty,
 					t = Math.abs(_sy - _tsy) / 400;
 
-				dom.style.transition = 'transform '+(t>0.2?t:0.2)+'s ease-out 0s';
+				// dom.style.transition = 'transform '+(t>0.2?t:0.2)+'s ease-out 0s';
+				dom.style.transition = 'transform 0s ease-out 0s';
 				dom.style.transform = 'translate3d(0px, '+(-idx*self.ty)+'px, 0px)';
 
 				self['eSlcUl_'+n+'_event'](null, v);
@@ -319,6 +317,7 @@
 
 		bind: function(opts){
 			var self = this;
+
 			opts.ele.addEventListener('click', function(e){
 				self.target = this;
 				if(this.value) opts.init = this.value;
@@ -326,6 +325,8 @@
 					self.creatDate(opts).show();
 				}
 			});
+
+			return opts;
 		},
 
 		show:function(){
