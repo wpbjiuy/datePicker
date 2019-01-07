@@ -19,7 +19,7 @@
 	width:100%;
 	position: absolute;
 	left:0;
-	bottom:-100%;
+	bottom:calc(-40px - 5 * 32px);
 	z-index: 1;
 	border-top:1px solid #ddd;
 	background-color:#cfd5da;

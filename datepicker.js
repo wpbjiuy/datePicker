@@ -6,7 +6,7 @@
 }(this, function(){
 	var Datepicker = function(opts){
 		if(!opts) opts = {};
-		this.xs = opts.xs || 0.08;	//滚动速率
+		this.xs = opts.xs || 0.15;	//滚动速率
 		this.ty = opts.ty || 32;	//option高度(px)
 		this.len = opts.len || 5;	//option.length
 		this.lenFloor2 = Math.floor(this.len/2);
@@ -120,6 +120,8 @@
 				if(!isScroll || !e.changedTouches.length) return;
 				var _y = e.changedTouches[0].clientY - y;
 
+				y = e.changedTouches[0].clientY;
+
 				if(sy + _y < -self[eleName].scrollHeight || sy + _y > 0) return;
 
 				if(new Date() - mt > 280) {
@@ -127,7 +129,7 @@
 					mt = new Date();
 				};
 				
-				sy += _y*self.xs;
+				sy += _y;
 				// transition: all 0.3s ease-out 0s; transform: translate3d(0px, -160px, 0px);
 				self[eleName].style.transition = 'transform 0s ease-out 0s';
 				self[eleName].style.transform = 'translate3d(0px, '+sy+'px, 0px)';
@@ -160,7 +162,9 @@
 
 				if(_mt > 280) _mt = sm ? 280 : 0;
 
-				self[eleName].style.transition = 'transform '+(_mt/1000+Math.abs(_my/1000))+'s ease-out 0s';
+				var t = _mt/1000 + Math.abs(_my/1000) + self.xs;
+
+				self[eleName].style.transition = 'transform '+t+'s ease-out 0s';
 				self[eleName].style.transform = 'translate3d(0px, '+sy+'px, 0px)';
 
 				var n = -Math.round(sy/ty);
