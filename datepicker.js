@@ -4,6 +4,9 @@
         typeof define === 'function' && define.amd ? define(factory) :
         (global.DatePicker = factory())
 }(this, function(){
+	var device = navigator.platform + '---' + navigator.userAgent,
+    	lDev = device.toLowerCase(),
+        mReg = lDev.match(/(iphone|ipod|ipad|android|ios|windows phone)/i);
 	var Datepicker = function(opts){
 		if(!opts) opts = {};
 		this.xs = opts.xs || 0.15;	//滚动速率
@@ -104,7 +107,7 @@
 				mt = new Date(),
 				ty = this.ty;
 
-			ele.addEventListener('touchstart', function(e){
+			ele.addEventListener(mReg?'touchstart':'mousedown', function(e){
 				e.preventDefault();
 				mt = new Date();
 				isScroll = true;
@@ -112,20 +115,22 @@
 					sy = parseInt(self[eleName].style.transform.replace(/translate3d|\(|\)|\s|px/g,'').split(',')[1]);
 					self[eleName].dataset.inset = null;
 				}
-				my = y = e.changedTouches[0].clientY;
+				var tp = e.changedTouches;
+				my = y = tp ? tp[0].clientY : e.clientY;
 			}, true);
 
-			ele.addEventListener('touchmove', function(e){
+			(mReg?ele:document).addEventListener(mReg?'touchmove':'mousemove', function(e){
 				e.preventDefault();
-				if(!isScroll || !e.changedTouches.length) return;
-				var _y = e.changedTouches[0].clientY - y;
+				var tp = e.changedTouches;
+				if(!isScroll || (tp && !tp.length)) return;
+				var _y = (tp ? tp[0].clientY : e.clientY) - y;
 
-				y = e.changedTouches[0].clientY;
+				y = tp ? tp[0].clientY : e.clientY;
 
 				if(sy + _y < -self[eleName].scrollHeight || sy + _y > 0) return;
 
 				if(new Date() - mt > 280) {
-					my = e.changedTouches[0].clientY;
+					my = tp ? tp[0].clientY : e.clientY;
 					mt = new Date();
 				};
 				
@@ -135,13 +140,14 @@
 				self[eleName].style.transform = 'translate3d(0px, '+sy+'px, 0px)';
 			}, true);
 
-			ele.addEventListener('touchend', function(e){ 
+			ele.addEventListener(mReg?'touchend':'mouseup', function(e){ 
 				e.preventDefault();
 				isScroll = false;
+				var tp = e.changedTouches;
 
-				if(!e.changedTouches.length) return;
+				if(tp && !tp.length) return;
 
-				var _my = e.changedTouches[0].clientY - my,
+				var _my = (tp ? tp[0].clientY : e.clientY) - my,
 					_mt = new Date() - mt;
 
 				if(_my == 0 && _mt < 280){
@@ -173,6 +179,13 @@
 
 				if(self[eleName+'_event']) self[eleName+'_event'](e, self[eleName].children[n].dataset.value);
 			}, true);
+
+			if(mReg){
+				document.addEventListener('mouseup.'+eleName, function(e){
+					e.preventDefault();
+					isScroll = false;
+				});
+			}
 		},
 
 		//绑定事件
