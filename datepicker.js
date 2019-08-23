@@ -327,6 +327,7 @@
 				// dom.style.transition = 'transform '+(t>0.2?t:0.2)+'s ease-out 0s';
 				dom.style.transition = 'transform 0s ease-out 0s';
 				dom.style.transform = 'translate3d(0px, '+(-idx*self.ty)+'px, 0px)';
+				self.values[n] = dom.children[idx].dataset.value;
 
 				self['eSlcUl_'+n+'_event'](null, v);
 			}
